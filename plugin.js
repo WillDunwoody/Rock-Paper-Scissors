@@ -14,7 +14,7 @@ let handText = document.querySelector(".handText p")
 function computerPlay() {
     let arr = ['rock', 'paper', 'scissors'];
     computerSelection = arr[Math.floor(Math.random()*3)]
-    computerHand.src = `./images/${computerSelection}.png`;
+    computerHand.src = `images/${computerSelection}.png`;
     return computerSelection
 }
 
@@ -25,7 +25,7 @@ let playerSelect = document.querySelectorAll(".playerSelect button");
 
         button.addEventListener('click', function() {
             playerSelection = button.id
-            playerHand.src = `./images/${playerSelection}.png`;
+            playerHand.src = `images/${playerSelection}.png`;
             playRound(playerSelection)
         });
 

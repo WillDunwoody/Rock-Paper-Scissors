@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("/images/rps-background.png");
+    background-image: url("images/rps-background.png");
     margin: 0;
     padding: 0;
     display: flex;
