@@ -1,31 +1,32 @@
 let round = 0;
 let playerScore = 0;
 let computerScore = 0;
-let handText = document.querySelector(".handText p")
+
 let computerSelection;
+let playerSelection;
+
 let playerHand = document.querySelector(".pHand");
 let computerHand = document.querySelector(".cHand")
+
+let handText = document.querySelector(".handText p")
 
 //Declaring computers choice
 function computerPlay() {
     let arr = ['rock', 'paper', 'scissors'];
-    let choice = arr[Math.floor(Math.random()*3)]
-    return choice;
+    computerSelection = arr[Math.floor(Math.random()*3)]
+    computerHand.src = `./images/${computerSelection}.png`;
+    return computerSelection
 }
 
 //Declaration of players choice plus game initialization.
-let playerSelection = document.querySelectorAll(".playerSelect button");
+let playerSelect = document.querySelectorAll(".playerSelect button");
 
-    playerSelection.forEach((button) => {
+    playerSelect.forEach((button) => {
 
         button.addEventListener('click', function() {
             playerSelection = button.id
-            computerSelection = computerPlay();
-            console.log(playerSelection, computerSelection)
             playerHand.src = `./images/${playerSelection}.png`;
-            computerHand.src = `./images/${computerSelection}.png`;
-
-            playRound(playerSelection, computerSelection)
+            playRound(playerSelection)
         });
 
     });
@@ -33,43 +34,69 @@ let playerSelection = document.querySelectorAll(".playerSelect button");
 
 //Start of round and comparing results.
 function playRound(){
-
-    if ((playerSelection === "rock" && computerSelection === "scissors") || 
-        (playerSelection === "scissors" && computerSelection === "paper") || 
-        (playerSelection === "paper" && computerSelection === "rock")) { 
-        handText.textContent = "Player Wins!"
-        playerScore++;
-        scoreUpdate();
-        }
-    else if ((playerSelection === "scissors" && computerSelection === "rock") ||
-            (playerSelection === "rock" && computerSelection === "paper") ||
-            (playerSelection === "paper" && computerSelection === "scissors")) {
-                handText.textContent = "Computer Wins!"
-        computerScore++;
-        scoreUpdate();
-    }
+    computerPlay();
 
     round++
-    Game()     
+    if (playerSelection === "rock" && computerSelection === "scissors") {
+        handText.textContent = "Rock beats Scissors";
+        playerScore++;
+    } else if (playerSelection === "rock" && computerSelection === "paper") {
+        handText.textContent = "Paper beats Rock";
+        computerScore++; 
+    } else if (playerSelection === "scissors" && computerSelection === "paper") {
+        handText.textContent = "Scissors beats Paper";
+        playerScore++;  
+    } else if (playerSelection === "scissors" && computerSelection === "rock") {
+        handText.textContent = "Rock beats Scissors";
+        computerScore++;   
+    } else if (playerSelection === "paper" && computerSelection === "rock") {
+        handText.textContent = "Paper beats Rock";
+        playerScore++; 
+    } else if (playerSelection === "paper" && computerSelection === "scissors") {
+        handText.textContent = "Scissors beats Paper";
+        computerScore++;
+    } else {
+        handText.textContent = "Tie"; 
+    }
+
+    scoreUpdate();
+    game();     
 }
 
+//function to keep track of score
 function scoreUpdate() {
     let pScore = document.querySelector('.playerScore p')
     let cScore = document.querySelector('.computerScore p')
+    let rNum = document.querySelector('.round p')
     pScore.textContent = playerScore;
     cScore.textContent = computerScore;
-}
-    
-function Game() {
-    if (round < 5) {
-        return
-    }
-    else if (playerScore > computerScore) {
-        console.log("You win");
-    } 
-    else (computerScore > playerScore) 
-        console.log("You lose");
-    
+    rNum.textContent = round;
 }
 
-Game();
+//function to keep track of rounds
+    
+function game() {
+    if (round < 5) {
+        return;
+    } else if (playerScore > computerScore) {
+        handText.textContent = "You Win!!";
+        endGame();
+    } 
+    else if (playerScore < computerScore) {
+        handText.textContent = "Sorry You Lost";
+        endGame();  
+    } else {
+        handText.textContent = "Its a Tie!"
+        endGame();
+    }
+}
+
+//function for end game
+
+function endGame() {
+    round = 0;
+    playerScore = 0;
+    computerScore = 0;
+}
+
+game();
