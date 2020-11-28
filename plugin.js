@@ -2,59 +2,43 @@ let round = 0;
 let playerScore = 0;
 let computerScore = 0;
 
-let computerSelection;
-let playerSelection;
+const playerHand = document.querySelector(".pHand");
+const computerHand = document.querySelector(".cHand")
 
-let playerHand = document.querySelector(".pHand");
-let computerHand = document.querySelector(".cHand")
-
-let handText = document.querySelector(".handText p")
+const handText = document.querySelector(".handText")
 
 //Declaring computers choice
 function computerPlay() {
-    let arr = ['rock', 'paper', 'scissors'];
-    computerSelection = arr[Math.floor(Math.random()*3)]
+    const arr = ['rock', 'paper', 'scissors'];
+    let computerSelection = arr[Math.floor(Math.random()*3)]
     computerHand.src = `images/${computerSelection}.png`;
     return computerSelection
 }
 
 //Declaration of players choice plus game initialization.
-let playerSelect = document.querySelectorAll(".playerSelect button");
+const playerSelect = document.querySelectorAll(".playerSelect button");
 
     playerSelect.forEach((button) => {
-
         button.addEventListener('click', function() {
             playerSelection = button.id
             playerHand.src = `images/${playerSelection}.png`;
-            playRound(playerSelection)
+            computerSelection = computerPlay();
+            playRound(playerSelection, computerSelection)
         });
-
     });
-
 
 //Start of round and comparing results.
 function playRound(){
-    computerPlay();
 
     round++
-    if (playerSelection === "rock" && computerSelection === "scissors") {
-        handText.textContent = "Rock beats Scissors";
+    if ((playerSelection === "rock" && computerSelection === "scissors") || (playerSelection === "scissors" && computerSelection === "paper")
+        || (playerSelection === "paper" && computerSelection === "rock")){
+        handText.textContent = playerSelection + " beats " + computerSelection;
         playerScore++;
-    } else if (playerSelection === "rock" && computerSelection === "paper") {
-        handText.textContent = "Paper beats Rock";
+    } else if ((playerSelection === "rock" && computerSelection === "paper") || (playerSelection === "scissors" && computerSelection === "rock")
+        || (playerSelection === "paper" && computerSelection === "scissors")) {
+        handText.textContent = computerSelection + " beats " + playerSelection;
         computerScore++; 
-    } else if (playerSelection === "scissors" && computerSelection === "paper") {
-        handText.textContent = "Scissors beats Paper";
-        playerScore++;  
-    } else if (playerSelection === "scissors" && computerSelection === "rock") {
-        handText.textContent = "Rock beats Scissors";
-        computerScore++;   
-    } else if (playerSelection === "paper" && computerSelection === "rock") {
-        handText.textContent = "Paper beats Rock";
-        playerScore++; 
-    } else if (playerSelection === "paper" && computerSelection === "scissors") {
-        handText.textContent = "Scissors beats Paper";
-        computerScore++;
     } else {
         handText.textContent = "Tie"; 
     }
@@ -74,7 +58,6 @@ function scoreUpdate() {
 }
 
 //function to keep track of rounds
-    
 function game() {
     if (round < 5) {
         return;
@@ -92,7 +75,6 @@ function game() {
 }
 
 //function for end game
-
 function endGame() {
     round = 0;
     playerScore = 0;
